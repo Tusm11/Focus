@@ -1,4 +1,4 @@
-# Focus - Productivity RPG Browser Extension
+# Focus
 
 A browser extension that transforms focus and productivity into an RPG experience.
 
