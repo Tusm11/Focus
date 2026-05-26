@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus - Productivity RPG</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header with Player Info -->
+    <header class="header">
+      <div class="player-info">
+        <div class="avatar">
+          <img id="playerAvatar" src="../assets/avatar-default.png" alt="Player Avatar">
+        </div>
+        <div class="player-stats">
+          <h1 id="playerName">Player</h1>
+          <div class="level-badge">
+            <span id="playerLevel">Level 1</span>
+            <span id="playerRank">Novice</span>
+          </div>
+        </div>
+      </div>
+      <button class="settings-btn" id="settingsBtn">⚙️</button>
+    </header>
+
+    <!-- Main Content Tabs -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="focus">Focus</button>
+      <button class="tab-btn" data-tab="quests">Quests</button>
+      <button class="tab-btn" data-tab="character">Character</button>
+    </nav>
+
+    <!-- Dashboard Tab -->
+    <section id="dashboard" class="tab-content active">
+      <div class="xp-bar">
+        <div class="xp-fill" id="xpFill"></div>
+        <span class="xp-text" id="xpText">0 / 1000 XP</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Gold</span>
+          <span class="stat-value" id="goldAmount">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Streak</span>
+          <span class="stat-value" id="streakDays">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Focus Time</span>
+          <span class="stat-value" id="focusTime">0h</span>
+        </div>
+      </div>
+
+      <!-- Current Status -->
+      <div class="status-section">
+        <h2>Current Status</h2>
+        <div id="statusContent" class="status-content">
+          <div class="status-idle">
+            <p>Ready to focus?</p>
+            <button class="btn btn-primary" id="startEntertainmentBtn">Start Entertainment Session</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pet Section -->
+      <div class="pet-section">
+        <h3>Your Pet</h3>
+        <div class="pet-display">
+          <img id="petImage" src="../assets/pet-default.png" alt="Your Pet">
+          <div class="pet-info">
+            <p id="petName">Pet Name</p>
+            <p id="petStage">Stage: Baby</p>
+            <div class="pet-happiness">
+              <div class="happiness-bar">
+                <div class="happiness-fill" id="happinessFill"></div>
+              </div>
+              <span id="happinessText">50%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Challenges -->
+      <div class="challenges-section">
+        <h3>Daily Challenges</h3>
+        <div id="dailyChallenges" class="challenges-list">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Focus Tab -->
+    <section id="focus" class="tab-content">
+      <div class="focus-setup">
+        <h2>Entertainment Session</h2>
+        
+        <div class="form-group">
+          <label for="entertainmentTime">Entertainment Time (minutes)</label>
+          <input type="number" id="entertainmentTime" min="5" max="120" value="30">
+        </div>
+
+        <div class="form-group">
+          <label for="focusTime">Focus Session Duration (minutes)</label>
+          <input type="number" id="focusSessionTime" min="10" max="120" value="25">
+        </div>
+
+        <div class="form-group">
+          <label for="questSelect">Select Quest (Optional)</label>
+          <select id="questSelect">
+            <option value="">No Quest</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-large" id="startFocusBtn">Start Entertainment Timer</button>
+      </div>
+
+      <!-- Active Session Display -->
+      <div id="activeSession" class="active-session hidden">
+        <div class="session-timer">
+          <div class="timer-display" id="timerDisplay">00:00</div>
+          <p id="sessionPhase">Entertainment Session</p>
+        </div>
+
+        <div class="session-info">
+          <p id="sessionReward">Reward: +150 XP</p>
+          <p id="sessionQuest">Quest: None</p>
+        </div>
+
+        <button class="btn btn-secondary" id="pauseSessionBtn">Pause</button>
+        <button class="btn btn-danger" id="cancelSessionBtn">Cancel</button>
+      </div>
+    </section>
+
+    <!-- Quests Tab -->
+    <section id="quests" class="tab-content">
+      <div class="quests-header">
+        <h2>Quests</h2>
+        <button class="btn btn-small" id="createQuestBtn">+ New Quest</button>
+      </div>
+
+      <div class="quests-list" id="questsList">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Create Quest Modal -->
+      <div id="createQuestModal" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Create New Quest</h3>
+            <button class="close-btn" id="closeQuestModal">&times;</button>
+          </div>
+          <form id="createQuestForm">
+            <div class="form-group">
+              <label for="questTitle">Quest Title</label>
+              <input type="text" id="questTitle" required>
+            </div>
+            <div class="form-group">
+              <label for="questDescription">Description</label>
+              <textarea id="questDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="questReward">XP Reward</label>
+              <input type="number" id="questReward" min="50" max="1000" value="200">
+            </div>
+            <div class="form-group">
+              <label for="questDifficulty">Difficulty</label>
+              <select id="questDifficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Quest</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Character Tab -->
+    <section id="character" class="tab-content">
+      <div class="character-container">
+        <div class="character-display">
+          <img id="characterImage" src="../assets/character-default.png" alt="Character">
+          <div class="character-details">
+            <h2 id="characterName">Character Name</h2>
+            <p id="characterClass">Class: Scholar</p>
+            <p id="characterLevel">Level 1</p>
+          </div>
+        </div>
+
+        <!-- Class Selection (if not chosen) -->
+        <div id="classSelection" class="class-selection hidden">
+          <h3>Choose Your Class</h3>
+          <div class="class-grid">
+            <div class="class-card" data-class="scholar">
+              <h4>Scholar</h4>
+              <p>+20% Learning XP</p>
+            </div>
+            <div class="class-card" data-class="monk">
+              <h4>Monk</h4>
+              <p>Focus sessions last longer</p>
+            </div>
+            <div class="class-card" data-class="warrior">
+              <h4>Warrior</h4>
+              <p>More boss damage</p>
+            </div>
+            <div class="class-card" data-class="alchemist">
+              <h4>Alchemist</h4>
+              <p>Bonus gold rewards</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skill Tree -->
+        <div class="skill-tree-section">
+          <h3>Skill Tree</h3>
+          <div class="skill-points">
+            <p>Available Points: <span id="skillPoints">0</span></p>
+          </div>
+          <div class="skills-grid" id="skillsGrid">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="achievements-section">
+          <h3>Achievements</h3>
+          <div class="achievements-grid" id="achievementsGrid">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Focus Screen (shown when blocking) -->
+  <div id="focusScreenOverlay" class="focus-screen-overlay hidden">
+    <div class="focus-screen">
+      <h1>FOCUS MODE</h1>
+      <div class="focus-content">
+        <div class="focus-timer">
+          <div class="timer-large" id="focusTimerDisplay">25:00</div>
+        </div>
+        <div class="focus-quest">
+          <p id="focusQuestTitle">Current Quest: Learn JavaScript</p>
+        </div>
+        <div class="focus-reward">
+          <p id="focusRewardText">Reward: +200 XP</p>
+        </div>
+        <div class="focus-actions">
+          <button class="btn btn-secondary" id="focusCompleteBtn">Complete Session</button>
+          <button class="btn btn-danger" id="focusAbandonBtn">Abandon Session</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
