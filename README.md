@@ -206,4 +206,4 @@ For issues, feature requests, or questions:
 
 ---
 
-**Transform focus into an adventure!** 🎮✨
+**Transform focus into an adventure!** ✨
