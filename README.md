@@ -183,25 +183,7 @@ All data is stored locally using Chrome's storage API:
 
 No data is sent to external servers.
 
-## Roadmap
 
-### Version 1 (Current)
-- ✅ Core UI
-- ✅ Game logic classes
-- ✅ Session management
-- ✅ Focus screen
-
-### Version 2
-- [ ] Boss battles UI
-- [ ] Pet evolution UI
-- [ ] Daily challenges
-- [ ] Achievements system
-
-### Version 3
-- [ ] Leaderboards
-- [ ] Social features
-- [ ] AI-generated quests
-- [ ] Analytics
 
 ## Contributing
 
